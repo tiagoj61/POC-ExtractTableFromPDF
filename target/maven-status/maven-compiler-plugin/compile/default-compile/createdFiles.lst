@@ -1,0 +1,7 @@
+lecatita\step\Writer.class
+lecatita\listener\JobCompletionListener.class
+lecatita\step\Reader.class
+lecatita\config\BatchConfig.class
+lecatita\controller\JobInvokerController.class
+lecatita\SpringBatchApplication.class
+lecatita\step\Processor.class

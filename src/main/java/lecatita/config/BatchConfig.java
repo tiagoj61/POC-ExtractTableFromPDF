@@ -1,0 +1,62 @@
+package lecatita.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import lecatita.listener.JobCompletionListener;
+import lecatita.step.processor.ProcessorDownload;
+import lecatita.step.reader.ReaderDownload;
+import lecatita.step.writer.WriterDownload;
+
+@Configuration
+@EnableAutoConfiguration(exclude = { HibernateJpaAutoConfiguration.class })
+@EnableBatchProcessing
+public class BatchConfig extends DefaultBatchConfigurer {
+
+	@Autowired
+	public JobBuilderFactory jobBuilderFactory;
+
+	@Autowired
+	public StepBuilderFactory stepBuilderFactory;
+
+	@Bean
+	public Job processJob() {
+		return jobBuilderFactory.get("processJob").incrementer(new RunIdIncrementer()).listener(listener())
+				.start(orderStep1()).build();
+	}
+
+	@Bean
+	public Step orderStep1() {
+		return stepBuilderFactory.get("orderStep1").<String, String>chunk(1).reader(new ReaderDownload())
+				.processor(new ProcessorDownload()).writer(new WriterDownload()).build();
+	}
+	@Bean
+	public Step orderStep2() {
+		return stepBuilderFactory.get("orderStep2").<String, String>chunk(1).reader(new ReaderDownload())
+				.processor(new ProcessorDownload()).writer(new WriterDownload()).build();
+	}
+
+	@Override
+	public void setDataSource(DataSource dataSource) {
+		super.setDataSource(null);
+	}
+
+	@Bean
+	public JobExecutionListener listener() {
+		return new JobCompletionListener();
+	}
+
+}
