@@ -17,13 +17,13 @@ public class ReaderDownload implements ItemReader<String> {
 	@Override
 	public String read() throws Exception, UnexpectedInputException,
 			ParseException, NonTransientResourceException {
-
-		if (count < messages.length) {
-			return messages[count++];
-		} else {
-			count = 0;
-		}
-		return null;
+throw new Exception();
+//		if (count < messages.length) {
+//			return messages[count++];
+//		} else {
+//			count = 0;
+//		}
+//		return null;
 	}
 
 }
