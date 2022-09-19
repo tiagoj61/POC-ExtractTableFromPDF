@@ -2,7 +2,7 @@ package lecatita.step.processor.statemachine.state.impl;
 
 import java.util.List;
 
-import lecatita.step.processor.statemachine.context.DeliveryContext;
+import lecatita.step.processor.statemachine.context.Context;
 import lecatita.step.processor.statemachine.state.State;
 
 public class Q2 implements State {
@@ -16,14 +16,14 @@ public class Q2 implements State {
 	}
 
 	@Override
-	public void updateState(DeliveryContext ctx) {
-		ctx.setNextState(Q0.instance());
+	public void updateState(Context ctx) {
+		ctx.setNextState(FinishedState.instance());
 		try {
 			List<String> coluns = ctx.getColuns().get(ctx.getColuns().size());
 
 			String delimiter = coluns.get(coluns.size());
 			coluns.remove(coluns.size());
-
+			System.out.println(coluns.get(0));
 			for (String colum : coluns) {
 
 				Double.valueOf(colum);
@@ -31,11 +31,11 @@ public class Q2 implements State {
 			}
 
 			if (!delimiter.equals("||")) {
-				ctx.setNextState(ErroState.instance());
+				ctx.setNextState(ErroState.instance(new Exception()));
 			}
 
 		} catch (Exception e) {
-			ctx.setNextState(ErroState.instance());
+			ctx.setNextState(ErroState.instance(e));
 		}
 		ctx.update();
 	}

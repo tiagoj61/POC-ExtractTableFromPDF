@@ -3,7 +3,7 @@ package lecatita.step.processor.statemachine.state.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import lecatita.step.processor.statemachine.context.DeliveryContext;
+import lecatita.step.processor.statemachine.context.Context;
 import lecatita.step.processor.statemachine.state.State;
 
 public class ErroState implements State {
@@ -12,12 +12,13 @@ public class ErroState implements State {
 	private ErroState() {
 	}
 
-	public static ErroState instance() {
+	public static ErroState instance(Exception e) {
+		e.printStackTrace();
 		return instance;
 	}
 
 	@Override
-	public void updateState(DeliveryContext ctx) {
+	public void updateState(Context ctx) {
 		System.out.println("Deu erro");
 	}
 }

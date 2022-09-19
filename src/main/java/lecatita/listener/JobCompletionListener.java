@@ -11,6 +11,10 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
 	public void afterJob(JobExecution jobExecution) {
 		if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
 			System.out.println("BATCH JOB COMPLETED SUCCESSFULLY");
+		}else {
+			System.out.println(jobExecution.getStatus());
+			
+			
 		}
 	}
 

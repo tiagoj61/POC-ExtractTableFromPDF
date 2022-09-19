@@ -7,7 +7,7 @@ import lecatita.step.processor.statemachine.state.State;
 import lecatita.step.processor.statemachine.state.impl.Q0;
 import lecatita.step.processor.statemachine.state.impl.Q1;
 
-public class DeliveryContext {
+public class Context {
 
 	private State nextState;
 	private String packageId;
@@ -17,10 +17,13 @@ public class DeliveryContext {
 	private List<List<String>> coluns;
 	private String header;
 
-	public DeliveryContext(String packageId, String line) {
+	public Context(String packageId, String line) {
 		super();
 		this.line = line;
+		System.out.println(line);
+		System.out.println(line.split("||"));
 		this.lines = Arrays.asList(line.split("||"));
+		System.out.println(this.lines);
 		this.numCurrentLine = -1;
 		this.packageId = packageId;
 

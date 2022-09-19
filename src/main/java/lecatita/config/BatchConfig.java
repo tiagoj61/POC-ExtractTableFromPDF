@@ -19,10 +19,13 @@ import org.springframework.context.annotation.Configuration;
 
 import lecatita.listener.JobCompletionListener;
 import lecatita.step.processor.ProcessorDownload;
+import lecatita.step.processor.ProcessorLine;
 import lecatita.step.processor.ProcessorTable;
 import lecatita.step.reader.ReaderDownload;
+import lecatita.step.reader.ReaderLine;
 import lecatita.step.reader.ReaderTable;
 import lecatita.step.writer.WriterDownload;
+import lecatita.step.writer.WriterLine;
 import lecatita.step.writer.WriterTable;
 
 @Configuration
@@ -41,13 +44,10 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		return jobBuilderFactory.get("processJob")
 				.incrementer(new RunIdIncrementer())
 				.listener(listener())
-				.start(downloadStep())
-				.on("FAILED")
-			    .to(errorStep())
-			    .from(downloadStep())
-			    .on("*")
-			    .to(tableStep())
-			    .end()
+				//.start(downloadStep())
+				//.next(tableStep())
+				.flow(lineStep())
+				.end()
 				.build();
 	}
 
@@ -64,23 +64,11 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	}
 
 	@Bean
-	public Step sucessStep() {
-		return stepBuilderFactory.get("sucessStep").<String, String>chunk(1).reader(new ReaderDownload())
-				.processor(new ProcessorDownload()).writer(new WriterDownload()).build();
+	public Step lineStep() {
+		return stepBuilderFactory.get("lineStep").<String, String>chunk(1).reader(new ReaderLine())
+				.processor(new ProcessorLine()).writer(new WriterLine()).build();
 	}
-	@Bean
-	public Step errorStep() {
-	  return this.stepBuilderFactory
-	    .get("errorStep")
-	    .tasklet(systemCommandTasklet())
-	    .build();
-	}
-	@Bean
-	public SystemCommandTasklet systemCommandTasklet() {
-	System.out.println("Error");
-	  return null;
-	}
-	
+
 
 	@Override
 	public void setDataSource(DataSource dataSource) {
