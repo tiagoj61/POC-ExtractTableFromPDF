@@ -46,8 +46,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 				.listener(listener())
 				//.start(downloadStep())
 				//.next(tableStep())
-				.flow(lineStep())
-				.end()
+				.start(lineStep())
 				.build();
 	}
 

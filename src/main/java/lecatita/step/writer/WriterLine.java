@@ -7,8 +7,8 @@ import org.springframework.batch.item.ItemWriter;
 public class WriterLine implements ItemWriter<String> {
 
 	@Override
-	public void write(List<? extends String> messages) throws Exception {
-		for (String msg : messages) {
+	public void write(List<? extends String> lines) throws Exception {
+		for (String msg : lines) {
 			System.out.println("Writing the data " + msg);
 		}
 	}

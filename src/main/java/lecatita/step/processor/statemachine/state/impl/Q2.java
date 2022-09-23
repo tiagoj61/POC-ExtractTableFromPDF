@@ -17,21 +17,13 @@ public class Q2 implements State {
 
 	@Override
 	public void updateState(Context ctx) {
+		System.out.println("Q2");
 		ctx.setNextState(FinishedState.instance());
 		try {
-			List<String> coluns = ctx.getColuns().get(ctx.getColuns().size());
+			List<String> currentCollum = ctx.getColuns().get(ctx.getColuns().size() - 1);
 
-			String delimiter = coluns.get(coluns.size());
-			coluns.remove(coluns.size());
-			System.out.println(coluns.get(0));
-			for (String colum : coluns) {
-
+			for (String colum : currentCollum) {
 				Double.valueOf(colum);
-
-			}
-
-			if (!delimiter.equals("||")) {
-				ctx.setNextState(ErroState.instance(new Exception()));
 			}
 
 		} catch (Exception e) {

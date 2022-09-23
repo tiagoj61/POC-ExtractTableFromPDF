@@ -1,6 +1,7 @@
 package lecatita.step.processor.statemachine.state.impl;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import lecatita.step.processor.statemachine.context.Context;
@@ -20,22 +21,13 @@ public class Q1 implements State {
 	public void updateState(Context ctx) {
 		ctx.setNextState(Q2.instance());
 		try {
-
-			List<String> coluns = Arrays.asList(ctx.getLine().split(" "));
-			ctx.setHeader(coluns.get(0));
-			System.out.println(coluns);
-			System.out.println("colun");
-			for (String colum : coluns) {
-
-				System.out.println(colum);
-
-			}
+			List<String> coluns = new LinkedList<String>(Arrays.asList(ctx.getCurrentLine().split(" ")));
+			String header = (coluns.get(0));
 
 			coluns.remove(0);
-			List<List<String>> onlyColluns = ctx.getColuns();
-			onlyColluns.add(coluns);
-			ctx.setColuns(onlyColluns);
-			System.out.println(coluns.get(0));
+
+			ctx.addCollum(coluns);
+			ctx.addHeader(header);
 
 		} catch (Exception e) {
 			ctx.setNextState(ErroState.instance(e));

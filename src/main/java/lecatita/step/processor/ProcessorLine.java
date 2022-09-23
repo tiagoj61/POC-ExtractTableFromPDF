@@ -1,4 +1,4 @@
-	package lecatita.step.processor;
+package lecatita.step.processor;
 
 import java.util.UUID;
 
@@ -10,10 +10,10 @@ public class ProcessorLine implements ItemProcessor<String, String> {
 
 	@Override
 	public String process(String data) throws Exception {
+		System.out.println("Processor Line\n" + data + "\n----------------");
 		Context ctx = new Context(UUID.randomUUID().toString(), data);
 		ctx.update();
-		System.out.println("LINE");
-		System.out.println(data);
+
 		return data.toUpperCase();
 	}
 
