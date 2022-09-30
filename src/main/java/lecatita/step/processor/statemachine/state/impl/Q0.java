@@ -6,6 +6,8 @@ import lecatita.step.processor.statemachine.state.State;
 public class Q0 implements State {
 	private static Q0 instance = new Q0();
 
+	private int posCurrentLine = -1;
+
 	private Q0() {
 	}
 
@@ -15,9 +17,9 @@ public class Q0 implements State {
 
 	@Override
 	public void updateState(Context ctx) {
-		ctx.setNextState(Q1.instance());
+		ctx.setNextState(CleanLineState.instance());
 		try {
-			String currentLine = ctx.getLines().get(ctx.getNumCurrentLine() + 1);
+			String currentLine = ctx.getLines().get(this.posCurrentLine++);
 			ctx.setCurrentLine(currentLine);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			ctx.setNextState(FinishedState.instance());

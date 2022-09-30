@@ -18,9 +18,8 @@ public class Context {
 	private String currentLine;
 	private List<String> lines;
 
-	private List<String> headers;
+	private List<String> indeces;
 	private List<List<String>> coluns;
-	private String header;
 
 	public Context(String packageId, String table) {
 		this.packageId = packageId;
@@ -54,18 +53,18 @@ public class Context {
 	}
 
 	public List<String> getHeaders() {
-		return headers;
+		return indeces;
 	}
 
 	public void setHeaders(List<String> headers) {
-		this.headers = headers;
+		this.indeces = headers;
 	}
 
 	public void addHeader(String header) {
-		if (this.headers == null) {
-			this.headers = new ArrayList<String>();
+		if (this.indeces == null) {
+			this.indeces = new ArrayList<String>();
 		}
-		this.headers.add(header);
+		this.indeces.add(header);
 	}
 
 	public void setCurrentLine(String currentLine) {
@@ -119,13 +118,6 @@ public class Context {
 		this.lines = lines;
 	}
 
-	public String getHeader() {
-		return header;
-	}
-
-	public void setHeader(String header) {
-		this.header = header;
-	}
 
 	public void update() {
 		nextState.updateState(this);

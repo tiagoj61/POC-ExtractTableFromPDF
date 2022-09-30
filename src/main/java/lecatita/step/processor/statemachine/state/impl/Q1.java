@@ -25,7 +25,7 @@ public class Q1 implements State {
 			String header = (coluns.get(0));
 
 			coluns.remove(0);
-
+			//TODO: setar linah sem header
 			ctx.addCollum(coluns);
 			ctx.addHeader(header);
 

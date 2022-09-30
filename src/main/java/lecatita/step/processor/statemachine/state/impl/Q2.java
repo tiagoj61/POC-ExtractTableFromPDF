@@ -18,7 +18,7 @@ public class Q2 implements State {
 	@Override
 	public void updateState(Context ctx) {
 		System.out.println("Q2");
-		ctx.setNextState(FinishedState.instance());
+		ctx.setNextState(Q0.instance());
 		try {
 			List<String> currentCollum = ctx.getColuns().get(ctx.getColuns().size() - 1);
 
