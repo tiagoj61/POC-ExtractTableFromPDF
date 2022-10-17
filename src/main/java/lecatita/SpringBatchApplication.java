@@ -4,6 +4,11 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/*
+ * rodando o projeto: localhost:8080/invokejob
+ * 
+ * */
+
 @SpringBootApplication
 @EnableBatchProcessing
 public class SpringBatchApplication {

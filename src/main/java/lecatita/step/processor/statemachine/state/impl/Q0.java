@@ -19,7 +19,7 @@ public class Q0 implements State {
 	public void updateState(Context ctx) {
 		ctx.setNextState(CleanLineState.instance());
 		try {
-			String currentLine = ctx.getLines().get(this.posCurrentLine++);
+			String currentLine = ctx.getLinesSplited().get(this.posCurrentLine++);
 			ctx.setCurrentLine(currentLine);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			ctx.setNextState(FinishedState.instance());

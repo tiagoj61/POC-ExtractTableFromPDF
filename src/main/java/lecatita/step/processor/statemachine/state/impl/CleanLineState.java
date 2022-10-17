@@ -19,9 +19,11 @@ public class CleanLineState implements State {
 	@Override
 	public void updateState(Context ctx) {
 		ctx.setNextState(Q1.instance());
+		
 		String currentLine=ctx.getCurrentLine();
 		currentLine=currentLine.trim();
 		ctx.setCurrentLine(currentLine);		
+		
 		ctx.update();
 	}
 }

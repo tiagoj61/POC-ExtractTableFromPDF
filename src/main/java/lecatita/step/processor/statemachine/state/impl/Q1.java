@@ -27,7 +27,7 @@ public class Q1 implements State {
 			coluns.remove(0);
 			//TODO: setar linah sem header
 			ctx.addCollum(coluns);
-			ctx.addHeader(header);
+			ctx.addIndeces(header);
 
 		} catch (Exception e) {
 			ctx.setNextState(ErroState.instance(e));

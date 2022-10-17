@@ -1,23 +1,19 @@
 package lecatita.step.processor.statemachine.context;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import lecatita.step.processor.statemachine.state.State;
-import lecatita.step.processor.statemachine.state.impl.Q0;
-import lecatita.step.processor.statemachine.state.impl.Q1;
+import lecatita.step.processor.statemachine.state.impl.SplitStep;
 
 public class Context {
-	private String lineDelimeter = "\\|\\|";
 	private State nextState;
 	private String packageId;
-	private int numCurrentLine;
 
 	private String table;
+	private List<String> linesSplited;
 	private String currentLine;
-	private List<String> lines;
-
+	
 	private List<String> indeces;
 	private List<List<String>> coluns;
 
@@ -25,11 +21,8 @@ public class Context {
 		this.packageId = packageId;
 
 		this.table = table;
-		this.lines = Arrays.asList(table.split(lineDelimeter));
-
-		this.numCurrentLine = -1;
-
-		this.nextState = Q0.instance();
+		
+		this.nextState = SplitStep.instance();
 	}
 
 	public String getTable() {
@@ -44,27 +37,20 @@ public class Context {
 		return currentLine;
 	}
 
-	public String getLineDelimeter() {
-		return lineDelimeter;
-	}
 
-	public void setLineDelimeter(String lineDelimeter) {
-		this.lineDelimeter = lineDelimeter;
-	}
-
-	public List<String> getHeaders() {
+	public List<String> getIndeces() {
 		return indeces;
 	}
 
-	public void setHeaders(List<String> headers) {
-		this.indeces = headers;
+	public void setIndices(List<String> indeces) {
+		this.indeces = indeces;
 	}
 
-	public void addHeader(String header) {
+	public void addIndeces(String indeces) {
 		if (this.indeces == null) {
 			this.indeces = new ArrayList<String>();
 		}
-		this.indeces.add(header);
+		this.indeces.add(indeces);
 	}
 
 	public void setCurrentLine(String currentLine) {
@@ -77,14 +63,6 @@ public class Context {
 
 	public void setNextState(State nextState) {
 		this.nextState = nextState;
-	}
-
-	public int getNumCurrentLine() {
-		return numCurrentLine;
-	}
-
-	public void setNumCurrentLine(int numCurrentLine) {
-		this.numCurrentLine = numCurrentLine;
 	}
 
 	public String getPackageId() {
@@ -110,14 +88,16 @@ public class Context {
 		this.coluns.add(colum);
 	}
 
-	public List<String> getLines() {
-		return lines;
+	
+
+
+	public List<String> getLinesSplited() {
+		return linesSplited;
 	}
 
-	public void setLines(List<String> lines) {
-		this.lines = lines;
+	public void setLinesSplited(List<String> linesSplited) {
+		this.linesSplited = linesSplited;
 	}
-
 
 	public void update() {
 		nextState.updateState(this);
