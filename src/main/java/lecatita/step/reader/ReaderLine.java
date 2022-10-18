@@ -11,9 +11,29 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.util.FileUtils;
 
 public class ReaderLine implements ItemReader<String>, StepExecutionListener {
-
-	private String[] completeTable = { "testeone 1 2 3 4 || testetwo 10 20 30 40 || testethree 100 200 300 400 ||" };
-
+	
+	//Exemplo brdaesco
+//	private String[] completeTable = { ""
+//			+ "Gênero 2018 2019 2020 2021*|"
+//			+ "Homens 88 88 90 82|"
+//			+ "Mulheres 12 12 10 18|"};
+//Exemplo itau - algoritmo de tabela dela vai ser punk
+//	private String[] completeTable = { ""
+//			+ "2021 2020 2019|"
+//			+ "Índice de satisfação da pesquisa Pulso - mulheres 87% 87% 86%|"
+//			+ "Índice de satisfação da pesquisa Pulso - homens 89% 89% 87%|"};
+//Exemplo Pan mudou o delimitador tem que ver isso no algoritomo de tablea
+//	private String[] completeTable = { ""
+//			+ "Nível F M TOTAL F M TOTAL F M TOTAL||"
+//			+ "Gerência 99 174 273 113 196 309 116 223 339||"
+//			+ "Coord/Espec.  80 127 207 90 149 239 129 248 377||"
+//			+ "Analistas 465 533 998 487 566 1.053 612 827 1.439||"
+//			+ "Assistentes 491 489 980 480 416 896 560 425 985||"
+//			+ "Total 1.135 1.323 2.458 1.170 1.327 2.497 1.417 1.723 3.140||"};
+//Exemplo Pan mudou o delimitador tem que ver isso no algoritomo de tablea
+	private String[] completeTable = { ""
+			+ ""};
+	
 	private int count;
 
 	@Override

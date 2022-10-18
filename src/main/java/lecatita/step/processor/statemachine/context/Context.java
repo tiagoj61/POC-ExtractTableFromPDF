@@ -14,6 +14,7 @@ public class Context {
 	private List<String> linesSplited;
 	private String currentLine;
 	
+	private String header;
 	private List<String> indeces;
 	private List<List<String>> coluns;
 
@@ -97,6 +98,14 @@ public class Context {
 
 	public void setLinesSplited(List<String> linesSplited) {
 		this.linesSplited = linesSplited;
+	}
+
+	public String getHeader() {
+		return header;
+	}
+
+	public void setHeader(String header) {
+		this.header = header;
 	}
 
 	public void update() {

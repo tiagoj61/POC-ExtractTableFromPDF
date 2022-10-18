@@ -21,7 +21,7 @@ public class Q0 implements State {
 		try {
 			String currentLine = ctx.getLinesSplited().get(this.posCurrentLine++);
 			ctx.setCurrentLine(currentLine);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (Exception e) {
 			ctx.setNextState(FinishedState.instance());
 		}
 		ctx.update();

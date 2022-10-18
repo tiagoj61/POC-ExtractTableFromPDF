@@ -1,8 +1,10 @@
 package lecatita.step.processor.statemachine.state.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import lecatita.step.processor.statemachine.context.Context;
 import lecatita.step.processor.statemachine.state.State;
@@ -21,18 +23,44 @@ public class Q1 implements State {
 	public void updateState(Context ctx) {
 		ctx.setNextState(Q2.instance());
 		try {
-			List<String> coluns = new LinkedList<String>(Arrays.asList(ctx.getCurrentLine().split(" ")));
-			String header = (coluns.get(0));
+			List<String> coluns = new ArrayList<>(Arrays.asList(ctx.getCurrentLine().split(" ")));
+			coluns = groupIndices(coluns);
+			String indice = (coluns.get(0));
 
 			coluns.remove(0);
-			//TODO: setar linah sem header
+			// TODO: verificador de linhas tem indice
 			ctx.addCollum(coluns);
-			ctx.addIndeces(header);
+			ctx.addIndeces(indice);
 
 		} catch (Exception e) {
 			ctx.setNextState(ErroState.instance(e));
 		}
 
 		ctx.update();
+	}
+	//Se não tiver numero na strign é um indice
+	private List<String> groupIndices(List<String> tudo) {
+		String indice = tudo.get(0);
+		String space = " ";
+		List<String> listaAgrupada = new ArrayList<String>();
+		int i;
+		for (i = 1; i < tudo.size(); i++) {
+			if (!verifyContainsNumber(tudo.get(i))) {
+				indice = indice + space + tudo.get(i);
+			} else {
+				break;
+			}
+		}
+		listaAgrupada.add(indice);
+		for (i = i; i < tudo.size(); i++) {
+			listaAgrupada.add(tudo.get(i));
+		}
+		return listaAgrupada;
+	}
+
+	private boolean verifyContainsNumber(String atual) {
+		String regex = "(.)*(\\d)(.)*";
+		Pattern pattern = Pattern.compile(regex);
+		return pattern.matcher(atual).matches();
 	}
 }

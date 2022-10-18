@@ -23,7 +23,11 @@ public class Q2 implements State {
 			List<String> currentCollum = ctx.getColuns().get(ctx.getColuns().size() - 1);
 
 			for (String colum : currentCollum) {
-				Double.valueOf(colum);
+				if (colum.contains("%")) {
+
+				} else {
+					Double.valueOf(colum);
+				}
 			}
 
 		} catch (Exception e) {

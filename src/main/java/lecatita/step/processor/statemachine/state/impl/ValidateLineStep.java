@@ -7,16 +7,15 @@ import java.util.List;
 import lecatita.step.processor.statemachine.context.Context;
 import lecatita.step.processor.statemachine.state.State;
 
-public class SplitStep implements State {
-	private static SplitStep instance = new SplitStep();
-
+public class ValidateLineStep implements State {
+	private static ValidateLineStep instance = new ValidateLineStep();
+	
 	private String lineDelimeter = "\\|";
-	private String lineDelimeterDuplo = "\\|\\|";
-
-	private SplitStep() {
+	
+	private ValidateLineStep() {
 	}
 
-	public static SplitStep instance() {
+	public static ValidateLineStep instance() {
 		return instance;
 	}
 
@@ -25,14 +24,11 @@ public class SplitStep implements State {
 		System.out.println("Split Step");
 		ctx.setNextState(Q0.instance());
 		try {
-			if (ctx.getTable().contains("||")) {
-				lineDelimeter = lineDelimeterDuplo;
-			}
 			List<String> linhas = new ArrayList<>(Arrays.asList(ctx.getTable().split(lineDelimeter)));
-
+			
 			ctx.setHeader(linhas.get(0));
 			linhas.remove(0);
-
+			
 			ctx.setLinesSplited(linhas);
 		} catch (Exception e) {
 			ctx.setNextState(EmptyTableState.instance(e));

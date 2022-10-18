@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.batch.item.ItemWriter;
 
-public class WriterLine implements ItemWriter<String> {
+import lecatita.step.processor.statemachine.context.Context;
+
+public class WriterLine implements ItemWriter<Context> {
 
 	@Override
-	public void write(List<? extends String> lines) throws Exception {
-		for (String msg : lines) {
+	public void write(List<? extends Context> lines) throws Exception {
+		for (Context msg : lines) {
 			System.out.println("Writing the data " + msg);
 		}
 	}

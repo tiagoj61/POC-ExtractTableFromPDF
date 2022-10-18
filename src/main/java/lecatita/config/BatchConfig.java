@@ -21,6 +21,7 @@ import lecatita.listener.JobCompletionListener;
 import lecatita.step.processor.ProcessorDownload;
 import lecatita.step.processor.ProcessorLine;
 import lecatita.step.processor.ProcessorTable;
+import lecatita.step.processor.statemachine.context.Context;
 import lecatita.step.reader.ReaderDownload;
 import lecatita.step.reader.ReaderLine;
 import lecatita.step.reader.ReaderTable;
@@ -64,7 +65,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
 	@Bean
 	public Step lineStep() {
-		return stepBuilderFactory.get("lineStep").<String, String>chunk(1).reader(new ReaderLine())
+		return stepBuilderFactory.get("lineStep").<String, Context>chunk(1).reader(new ReaderLine())
 				.processor(new ProcessorLine()).writer(new WriterLine()).build();
 	}
 
