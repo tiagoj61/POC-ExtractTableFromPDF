@@ -1,12 +1,12 @@
-package lecatita.step.processor.statemachine.context;
+package lecatita.step.processor.line.statemachine.context;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import lecatita.step.processor.statemachine.state.State;
-import lecatita.step.processor.statemachine.state.impl.SplitStep;
+import lecatita.step.processor.line.statemachine.state.impl.SplitStep;
+import lecatita.step.processor.line.statemachine.state.State;
 
-public class Context {
+public class ContextLine {
 	private State nextState;
 	private String packageId;
 
@@ -18,7 +18,7 @@ public class Context {
 	private List<String> indeces;
 	private List<List<String>> coluns;
 
-	public Context(String packageId, String table) {
+	public ContextLine(String packageId, String table) {
 		this.packageId = packageId;
 
 		this.table = table;

@@ -1,6 +1,6 @@
 package teste;
 
-import lecatita.step.processor.statemachine.context.Context;
+import lecatita.step.processor.line.statemachine.context.ContextLine;
 
 public class Main {
 	public static void main(String[] args) 

@@ -1,13 +1,12 @@
-package lecatita.step.processor.statemachine.state.impl;
+package lecatita.step.processor.line.statemachine.state.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import lecatita.step.processor.statemachine.context.Context;
-import lecatita.step.processor.statemachine.state.State;
+import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.state.State;
 
 public class Q1 implements State {
 	private static Q1 instance = new Q1();
@@ -20,7 +19,7 @@ public class Q1 implements State {
 	}
 
 	@Override
-	public void updateState(Context ctx) {
+	public void updateState(ContextLine ctx) {
 		ctx.setNextState(Q2.instance());
 		try {
 			List<String> coluns = new ArrayList<>(Arrays.asList(ctx.getCurrentLine().split(" ")));

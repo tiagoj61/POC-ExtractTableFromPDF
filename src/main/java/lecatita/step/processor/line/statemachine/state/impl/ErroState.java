@@ -1,10 +1,7 @@
-package lecatita.step.processor.statemachine.state.impl;
+package lecatita.step.processor.line.statemachine.state.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
-import lecatita.step.processor.statemachine.context.Context;
-import lecatita.step.processor.statemachine.state.State;
+import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.state.State;
 
 public class ErroState implements State {
 	private static ErroState instance = new ErroState();
@@ -18,7 +15,7 @@ public class ErroState implements State {
 	}
 
 	@Override
-	public void updateState(Context ctx) {
+	public void updateState(ContextLine ctx) {
 		System.out.println("Deu erro");
 	}
 }

@@ -10,7 +10,6 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.core.step.tasklet.SystemCommandTasklet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
@@ -19,9 +18,9 @@ import org.springframework.context.annotation.Configuration;
 
 import lecatita.listener.JobCompletionListener;
 import lecatita.step.processor.ProcessorDownload;
-import lecatita.step.processor.ProcessorLine;
-import lecatita.step.processor.ProcessorTable;
-import lecatita.step.processor.statemachine.context.Context;
+import lecatita.step.processor.line.ProcessorLine;
+import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.table.ProcessorTable;
 import lecatita.step.reader.ReaderDownload;
 import lecatita.step.reader.ReaderLine;
 import lecatita.step.reader.ReaderTable;
@@ -46,8 +45,8 @@ public class BatchConfig extends DefaultBatchConfigurer {
 				.incrementer(new RunIdIncrementer())
 				.listener(listener())
 				//.start(downloadStep())
-				//.next(tableStep())
-				.start(lineStep())
+				.start(tableStep())
+				//.start(lineStep())
 				.build();
 	}
 
@@ -59,13 +58,13 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
 	@Bean
 	public Step tableStep() {
-		return stepBuilderFactory.get("tableStep").<String, String>chunk(1).reader(new ReaderTable())
+			return stepBuilderFactory.get("tableStep").<String, String>chunk(1).reader(new ReaderTable())
 				.processor(new ProcessorTable()).writer(new WriterTable()).build();
 	}
 
 	@Bean
 	public Step lineStep() {
-		return stepBuilderFactory.get("lineStep").<String, Context>chunk(1).reader(new ReaderLine())
+		return stepBuilderFactory.get("lineStep").<String, ContextLine>chunk(1).reader(new ReaderLine())
 				.processor(new ProcessorLine()).writer(new WriterLine()).build();
 	}
 

@@ -1,9 +1,9 @@
-package lecatita.step.processor.statemachine.state.impl;
+package lecatita.step.processor.line.statemachine.state.impl;
 
 import java.util.List;
 
-import lecatita.step.processor.statemachine.context.Context;
-import lecatita.step.processor.statemachine.state.State;
+import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.state.State;
 
 public class Q2 implements State {
 	private static Q2 instance = new Q2();
@@ -16,7 +16,7 @@ public class Q2 implements State {
 	}
 
 	@Override
-	public void updateState(Context ctx) {
+	public void updateState(ContextLine ctx) {
 		System.out.println("Q2");
 		ctx.setNextState(Q0.instance());
 		try {
