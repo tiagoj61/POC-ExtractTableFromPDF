@@ -38,7 +38,8 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
-
+	//TODO: isso deveria ser o banco dde daods
+	private static String[] ori=new String[2];
 	@Bean
 	public Job processJob() {
 		return jobBuilderFactory.get("processJob")
@@ -46,7 +47,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 				.listener(listener())
 				//.start(downloadStep())
 				.start(tableStep())
-				//.start(lineStep())
+				.next(lineStep())
 				.build();
 	}
 
@@ -58,13 +59,13 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
 	@Bean
 	public Step tableStep() {
-			return stepBuilderFactory.get("tableStep").<String, String>chunk(1).reader(new ReaderTable())
+			return stepBuilderFactory.get("tableStep").<String, String>chunk(1).reader(new ReaderTable(ori))
 				.processor(new ProcessorTable()).writer(new WriterTable()).build();
 	}
 
 	@Bean
 	public Step lineStep() {
-		return stepBuilderFactory.get("lineStep").<String, ContextLine>chunk(1).reader(new ReaderLine())
+		return stepBuilderFactory.get("lineStep").<String, ContextLine>chunk(1).reader(new ReaderLine(ori))
 				.processor(new ProcessorLine()).writer(new WriterLine()).build();
 	}
 

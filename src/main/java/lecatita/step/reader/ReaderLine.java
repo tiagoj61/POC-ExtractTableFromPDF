@@ -31,10 +31,14 @@ public class ReaderLine implements ItemReader<String>, StepExecutionListener {
 //			+ "Assistentes 491 489 980 480 416 896 560 425 985||"
 //			+ "Total 1.135 1.323 2.458 1.170 1.327 2.497 1.417 1.723 3.140||"};
 //Exemplo Pan mudou o delimitador tem que ver isso no algoritomo de tablea
-	private String[] completeTable = { ""
-			+ ""};
+	private String[] completeTable;
 	
 	private int count;
+
+	public ReaderLine(String[] ori) {
+		//TODO TBM TEM Q SER O BANCO BUSCAR A ULTIMA TABELA INSERIDA
+		completeTable=ori;
+	}
 
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
