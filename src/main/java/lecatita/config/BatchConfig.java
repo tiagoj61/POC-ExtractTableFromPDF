@@ -1,5 +1,7 @@
 package lecatita.config;
 
+import java.io.File;
+
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
@@ -45,15 +47,15 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		return jobBuilderFactory.get("processJob")
 				.incrementer(new RunIdIncrementer())
 				.listener(listener())
-				//.start(downloadStep())
-				.start(tableStep())
-				.next(lineStep())
+				.start(downloadStep())
+				//.next(tableStep())
+				//.next(lineStep())
 				.build();
 	}
 
 	@Bean
 	public Step downloadStep() {
-		return stepBuilderFactory.get("downloadStep").<String, String>chunk(1).reader(new ReaderDownload())
+		return stepBuilderFactory.get("downloadStep").<String, File>chunk(1).reader(new ReaderDownload())
 				.processor(new ProcessorDownload()).writer(new WriterDownload()).build();
 	}
 
