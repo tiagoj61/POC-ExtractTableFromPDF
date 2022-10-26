@@ -6,12 +6,17 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeRead;
+import org.springframework.batch.core.annotation.BeforeStep;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 
+import lecatita.enumeration.PathEnum;
 import lecatita.step.processor.table.statemachine.context.ContextTable;
 import technology.tabula.ObjectExtractor;
 import technology.tabula.Page;
@@ -21,43 +26,51 @@ import technology.tabula.extractors.BasicExtractionAlgorithm;
 
 public class ReaderTable implements ItemReader<String> {
 	private String[] tabelasExtraidas;
-	private String messages;
-
+	private String textReaded;
+	private String fileToRead;
+	private StepExecution stepExecution;
 	private int count = 0;
 
-	//TODO ESSE READER LE O ULTIMO ARQUIVO IMPUTADO NO BANCO
+	// TODO ESSE READER LE O ULTIMO ARQUIVO IMPUTADO NO BANCO
 	public ReaderTable(String[] ori) {
-		tabelasExtraidas=ori;
-		
+		tabelasExtraidas = ori;
+
 	}
 
+	@BeforeStep
+	public void retrieveInterstepData(StepExecution stepExecution) {
+		this.stepExecution = stepExecution;
+		JobExecution jobExecution = stepExecution.getJobExecution();
+		ExecutionContext jobContext = jobExecution.getExecutionContext();
+		fileToRead = String.valueOf(jobContext.get(PathEnum.FILE_KEY.getValue()));
+	}
 	@BeforeRead
 	private void before() throws IOException {
-		messages = extractTable();
-		String tabelaOriginal = messages;
-		ContextTable ctx = new ContextTable(UUID.randomUUID().toString(), messages);
+		textReaded = extractTable();
+		ContextTable ctx = new ContextTable(fileToRead, textReaded);
 		ctx.update();
-		//TODO isso tbm é o banco
-		
-		tabelasExtraidas[0]=ctx.getTabelasExtraidas()[0];
-		tabelasExtraidas[1]=ctx.getTabelasExtraidas()[1];
+
+		tabelasExtraidas = ctx.getTabelasExtraidas();
+		ExecutionContext stepContext = this.stepExecution.getExecutionContext();
+		stepContext.put("a", tabelasExtraidas);
 	}
 
 	@Override
 	public String read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 
-		if (count < tabelasExtraidas.length) {
-			return tabelasExtraidas[count++];
+		if (count < 1) {
+			count++;
+			return textReaded;
 		} else {
 			count = 0;
 		}
 		return null;
 	}
 
-	public static String extractTable() throws IOException {
-		final String FILENAME = "D:\\Users\\Pc\\Documents\\POCs\\XP.pdf";
+	public String extractTable() throws IOException {
 		String retorno = "";
-		PDDocument pd = PDDocument.load(new File(FILENAME));
+		String filePathToRead = PathEnum.FILE_CUT_STORE.getValue() + fileToRead + ".pdf";
+		PDDocument pd = PDDocument.load(new File(filePathToRead));
 
 		int totalPages = pd.getNumberOfPages();
 		System.out.println("Totent: " + totalPages);
@@ -75,13 +88,13 @@ public class ReaderTable implements ItemReader<String> {
 
 				List<RectangularTextContainer> cells = rows.get(i);
 				for (int j = 0; j < cells.size(); j++) {
-					
+
 					String text = cells.get(j).getText();
 					if (!text.isEmpty()) {
-						retorno = retorno + text+" " ;
+						retorno = retorno + text + " ";
 					}
 				}
-				retorno=retorno+"|\n";
+				retorno = retorno + "|\n";
 
 			}
 		}

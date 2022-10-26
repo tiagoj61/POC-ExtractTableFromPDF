@@ -1,8 +1,11 @@
 package lecatita.step.reader;
 
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
+import org.springframework.batch.core.annotation.BeforeStep;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
@@ -10,9 +13,11 @@ import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.util.FileUtils;
 
+import lecatita.enumeration.PathEnum;
+
 public class ReaderLine implements ItemReader<String>, StepExecutionListener {
-	
-	//Exemplo brdaesco
+
+	// Exemplo brdaesco
 //	private String[] completeTable = { ""
 //			+ "Gênero 2018 2019 2020 2021*|"
 //			+ "Homens 88 88 90 82|"
@@ -32,12 +37,18 @@ public class ReaderLine implements ItemReader<String>, StepExecutionListener {
 //			+ "Total 1.135 1.323 2.458 1.170 1.327 2.497 1.417 1.723 3.140||"};
 //Exemplo Pan mudou o delimitador tem que ver isso no algoritomo de tablea
 	private String[] completeTable;
-	
+
 	private int count;
 
+	@BeforeStep
+	public void retrieveInterstepData(StepExecution stepExecution) {
+		JobExecution jobExecution = stepExecution.getJobExecution();
+		ExecutionContext jobContext = jobExecution.getExecutionContext();
+		completeTable = (String[]) jobContext.get("a");
+	}
+
 	public ReaderLine(String[] ori) {
-		//TODO TBM TEM Q SER O BANCO BUSCAR A ULTIMA TABELA INSERIDA
-		completeTable=ori;
+		completeTable = ori;
 	}
 
 	@Override
@@ -48,8 +59,7 @@ public class ReaderLine implements ItemReader<String>, StepExecutionListener {
 	@Override
 	public String read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 		try {
-			count++;
-			return completeTable[count - 1];
+			return completeTable[count++];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("Out bounds");
 			return null;

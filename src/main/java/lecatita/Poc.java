@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -22,6 +23,7 @@ import technology.tabula.extractors.BasicExtractionAlgorithm;
 
 
 public class Poc {
+
 	private static String a = "405-1 Diversidade em órgãos de governança e empregados|\n"
 			+ "Composição do Conselho de Administração - Gênero 2020 2021|\r\n"
 			+ "Masculinos 11 92% 11 92|\r\n"
@@ -34,6 +36,7 @@ public class Poc {
 			+ "Gerente/Gerente Geral 6% 93% 1% 59% 41%|";
 
 		public static void updateState() {
+
 			List<String> linhas = new ArrayList<>(Arrays.asList(a.split("\\|")));
 			HashMap<Integer, String> a = new HashMap<Integer, String>();
 			//TODO Criar metodo, conta a quantidade de numeros agrupados na linha
