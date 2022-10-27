@@ -16,6 +16,7 @@ import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 
+import lecatita.enumeration.IdenfierStepEnum;
 import lecatita.enumeration.PathEnum;
 import lecatita.step.processor.table.statemachine.context.ContextTable;
 import technology.tabula.ObjectExtractor;
@@ -31,18 +32,13 @@ public class ReaderTable implements ItemReader<String> {
 	private StepExecution stepExecution;
 	private int count = 0;
 
-	// TODO ESSE READER LE O ULTIMO ARQUIVO IMPUTADO NO BANCO
-	public ReaderTable(String[] ori) {
-		tabelasExtraidas = ori;
-
-	}
 
 	@BeforeStep
 	public void retrieveInterstepData(StepExecution stepExecution) {
 		this.stepExecution = stepExecution;
 		JobExecution jobExecution = stepExecution.getJobExecution();
 		ExecutionContext jobContext = jobExecution.getExecutionContext();
-		fileToRead = String.valueOf(jobContext.get(PathEnum.FILE_KEY.getValue()));
+		fileToRead = String.valueOf(jobContext.get(IdenfierStepEnum.TABLE_KEY.getValue()));
 	}
 	@BeforeRead
 	private void before() throws IOException {
@@ -52,7 +48,7 @@ public class ReaderTable implements ItemReader<String> {
 
 		tabelasExtraidas = ctx.getTabelasExtraidas();
 		ExecutionContext stepContext = this.stepExecution.getExecutionContext();
-		stepContext.put("a", tabelasExtraidas);
+		stepContext.put( IdenfierStepEnum.LINE_KEY.getValue(), tabelasExtraidas);
 	}
 
 	@Override
@@ -66,15 +62,14 @@ public class ReaderTable implements ItemReader<String> {
 		}
 		return null;
 	}
-
+//TODO arrumar isso
 	public String extractTable() throws IOException {
 		String retorno = "";
 		String filePathToRead = PathEnum.FILE_CUT_STORE.getValue() + fileToRead + ".pdf";
 		PDDocument pd = PDDocument.load(new File(filePathToRead));
 
 		int totalPages = pd.getNumberOfPages();
-		System.out.println("Totent: " + totalPages);
-
+	
 		ObjectExtractor oe = new ObjectExtractor(pd);
 		BasicExtractionAlgorithm sea = new BasicExtractionAlgorithm();
 		Page page = oe.extract(1);

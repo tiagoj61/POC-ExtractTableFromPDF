@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import lecatita.dao.interfc.ILineDao;
+import lecatita.enumeration.IdenfierStepEnum;
 import lecatita.enumeration.PathEnum;
 import lecatita.listener.JobCompletionListener;
 import lecatita.step.processor.ProcessorDownload;
@@ -39,12 +40,11 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	private ILineDao lineDao;
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
-	String downloadUrl = "https://ri.bancopan.com.br/ShowCanal/Download.aspx?Arquivo=t9eMM7vxgKQB+bwoni+Rrw==";
-	int pagina =48;
+	String downloadUrl = "https://api.mziq.com/mzfilemanager/v2/d/d1820734-8b3f-4a23-8642-331a3a8561a6/8b28d1dc-6273-deb0-8371-5658e9c97c78?origin=1";
+	int pagina =107;
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
-	// TODO: isso deveria ser o banco dde daods
-	private static String[] ori = new String[2];
+
 
 	@Bean
 	public Job processJob() {
@@ -61,13 +61,13 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
 	@Bean
 	public Step tableStep() {
-		return stepBuilderFactory.get("tableStep").<String, String>chunk(1).reader(new ReaderTable(ori))
+		return stepBuilderFactory.get("tableStep").<String, String>chunk(1).reader(new ReaderTable())
 				.writer(new WriterTable()).listener(promotionListener()).build();
 	}
 
 	@Bean
 	public Step lineStep() {
-		return stepBuilderFactory.get("lineStep").<String, ContextLine>chunk(1).reader(new ReaderLine(ori))
+		return stepBuilderFactory.get("lineStep").<String, ContextLine>chunk(1).reader(new ReaderLine())
 				.processor(new ProcessorLine()).writer(new WriterLine()).listener(promotionListener()).build();
 	}
 
@@ -84,7 +84,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	@Bean
 	public ExecutionContextPromotionListener promotionListener() {
 		ExecutionContextPromotionListener listener = new ExecutionContextPromotionListener();
-		listener.setKeys(new String[] { PathEnum.FILE_KEY.getValue(), "a" });
+		listener.setKeys(new String[] { IdenfierStepEnum.TABLE_KEY.getValue(), IdenfierStepEnum.LINE_KEY.getValue() });
 		return listener;
 	}
 

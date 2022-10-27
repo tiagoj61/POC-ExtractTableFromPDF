@@ -19,7 +19,7 @@ public class TableExtractorState implements StateTable {
 	public static TableExtractorState instance() {
 		return instance;
 	}
-
+	// TODO arrumar esse troço
 	@Override
 	public void updateState(ContextTable ctx) {
 		ctx.setNextState(FinishedState.instance());
@@ -29,7 +29,7 @@ public class TableExtractorState implements StateTable {
 		List<List<String>> tabelas = new ArrayList<>();
 		int ant = -1;
 		String ants = "";
-		// TODO Criar metodo, conta a quantidade de numeros agrupados na linha
+		
 		for (int i = 0; i < linhas.size(); i++) {
 
 			String[] arra = linhas.get(i).split(" ");

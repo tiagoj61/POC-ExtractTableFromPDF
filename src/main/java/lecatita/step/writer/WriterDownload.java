@@ -8,6 +8,7 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 
 import lecatita.dao.interfc.ILineDao;
+import lecatita.enumeration.IdenfierStepEnum;
 import lecatita.enumeration.PathEnum;
 
 public class WriterDownload implements ItemWriter<String> {
@@ -29,7 +30,7 @@ public class WriterDownload implements ItemWriter<String> {
 		// dao.insert();
 		for (int i = 0; i < files.size(); i++) {
 			ExecutionContext stepContext = this.stepExecution.getExecutionContext();
-			stepContext.put(PathEnum.FILE_KEY.getValue(), files.get(i));
+			stepContext.put(IdenfierStepEnum.TABLE_KEY.getValue(), files.get(i));
 		}
 
 	}

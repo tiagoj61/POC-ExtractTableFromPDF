@@ -6,6 +6,7 @@ import org.springframework.batch.item.ItemWriter;
 
 public class WriterTable implements ItemWriter<String> {
 
+	//TODO: salvar tabela bruta no banco
 	@Override
 	public void write(List<? extends String> messages) throws Exception {
 		for (String msg : messages) {

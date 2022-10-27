@@ -1,9 +1,7 @@
 package lecatita.step.processor.table.statemachine.context;
 
-import lecatita.step.processor.line.statemachine.state.State;
 import lecatita.step.processor.statemachine.StateTable;
 import lecatita.step.processor.table.statemachine.state.impl.TableClennerState;
-import lecatita.step.processor.table.statemachine.state.impl.TableExtractorState;
 
 public class ContextTable {
 	private StateTable nextState;

@@ -5,9 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.springframework.batch.core.annotation.BeforeRead;
+import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
@@ -26,6 +29,12 @@ public class ReaderDownload implements ItemReader<String> {
 			this.urlToDownload = downloadUrl;
 			this.uniqueFileId = UUID.randomUUID().toString().replace("-", "");
 		}
+	}
+
+	@BeforeStep
+	private void configuraFolders() throws IOException {
+		Files.createDirectories(Paths.get(PathEnum.FILE_STORE.getValue()));
+		Files.createDirectories(Paths.get(PathEnum.FILE_CUT_STORE.getValue()));
 	}
 
 	@BeforeRead
