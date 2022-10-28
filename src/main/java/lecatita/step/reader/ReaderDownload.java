@@ -9,30 +9,35 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeRead;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 
 import lecatita.enumeration.PathEnum;
 
+@Scope(value = "step")
 public class ReaderDownload implements ItemReader<String> {
 	private String urlToDownload;
 	private String uniqueFileId;
 	private String logInfo;
 	private int count = 0;
 
-	public ReaderDownload(String downloadUrl) {
-		if (!downloadUrl.isBlank()) {
-			this.urlToDownload = downloadUrl;
-			this.uniqueFileId = UUID.randomUUID().toString().replace("-", "");
-		}
+	public ReaderDownload() {
+		this.uniqueFileId = UUID.randomUUID().toString().replace("-", "");
 	}
 
 	@BeforeStep
-	private void configuraFolders() throws IOException {
+	public void beforeStep(final StepExecution stepExecution) throws IOException {
+		JobParameters jobParameters = stepExecution.getJobParameters();
+		urlToDownload = (jobParameters.getString("downloadUrl"));
+
 		Files.createDirectories(Paths.get(PathEnum.FILE_STORE.getValue()));
 		Files.createDirectories(Paths.get(PathEnum.FILE_CUT_STORE.getValue()));
 	}

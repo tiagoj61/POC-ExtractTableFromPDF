@@ -2,11 +2,16 @@ package lecatita.step.processor;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.pdfbox.multipdf.Splitter;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
 
 import lecatita.enumeration.PathEnum;
@@ -15,8 +20,10 @@ public class ProcessorDownload implements ItemProcessor<String, String> {
 	private String logInfo;
 	private int pageToExtract;
 
-	public ProcessorDownload(int pagina) {
-		this.pageToExtract = pagina;
+	@BeforeStep
+	public void beforeStep(final StepExecution stepExecution) throws IOException {
+		JobParameters jobParameters = stepExecution.getJobParameters();
+		pageToExtract = Integer.valueOf(jobParameters.getString("pagina"));
 	}
 
 	@Override
@@ -40,7 +47,7 @@ public class ProcessorDownload implements ItemProcessor<String, String> {
 
 		String fileCutPath = PathEnum.FILE_CUT_STORE.getValue() + fileName + ".pdf";
 
-		PDDocument pd = Page.get(this.pageToExtract);
+		PDDocument pd = Page.get(pageToExtract);
 		pd.save(fileCutPath);
 
 		document.close();

@@ -12,6 +12,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +20,10 @@ import org.springframework.context.annotation.Configuration;
 
 import lecatita.dao.interfc.ILineDao;
 import lecatita.enumeration.IdenfierStepEnum;
-import lecatita.enumeration.PathEnum;
 import lecatita.listener.JobCompletionListener;
 import lecatita.step.processor.ProcessorDownload;
 import lecatita.step.processor.line.ProcessorLine;
 import lecatita.step.processor.line.statemachine.context.ContextLine;
-import lecatita.step.processor.table.ProcessorTable;
 import lecatita.step.reader.ReaderDownload;
 import lecatita.step.reader.ReaderLine;
 import lecatita.step.reader.ReaderTable;
@@ -40,11 +39,8 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	private ILineDao lineDao;
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
-	String downloadUrl = "https://api.mziq.com/mzfilemanager/v2/d/d1820734-8b3f-4a23-8642-331a3a8561a6/8b28d1dc-6273-deb0-8371-5658e9c97c78?origin=1";
-	int pagina =107;
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
-
 
 	@Bean
 	public Job processJob() {
@@ -54,9 +50,10 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
 	@Bean
 	public Step downloadStep() {
-		return stepBuilderFactory.get("downloadStep").<String, String>chunk(1).reader(new ReaderDownload(downloadUrl))
-				.processor(new ProcessorDownload(pagina)).writer(new WriterDownload(lineDao))
-				.listener(promotionListener()).build();
+
+		return stepBuilderFactory.get("downloadStep").<String, String>chunk(1).reader(new ReaderDownload())
+				.processor(new ProcessorDownload()).writer(new WriterDownload(lineDao)).listener(promotionListener())
+				.build();
 	}
 
 	@Bean
