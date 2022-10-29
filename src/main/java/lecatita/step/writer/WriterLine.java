@@ -16,6 +16,7 @@ public class WriterLine implements ItemWriter<ContextLine> {
 			System.out.println("Writing the data " + msg);
 			// Isso AQUI é pra saber em qual tabela inserir, homem mulher e tal
 			// StringUtils.getLevenshteinDistance(null, null);
+			// ver se o header ou o indice é mais parecido com o cargo
 		}
 	}
 

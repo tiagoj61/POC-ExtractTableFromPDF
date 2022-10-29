@@ -35,10 +35,10 @@ public class TableClennerState implements StateTable {
 				.replaceAll(PatternReplaceEnum.LINEBREAK_PIPE.getReplace());
 		dealed = PattenEnum.ENDFILE.getPattern().matcher(paginaString)
 				.replaceAll(PatternReplaceEnum.ENDFILE_PIPE.getReplace());
-		dealed = PattenEnum.MULTIPLESPACE.getPattern().matcher(paginaString)
-				.replaceAll(PatternReplaceEnum.MULTIPLESPACE_ONESPACE.getReplace());
 		dealed = PattenEnum.SPACEPIPE.getPattern().matcher(paginaString)
 				.replaceAll(PatternReplaceEnum.SPACEPIPE_PIPE.getReplace());
+		dealed = PattenEnum.MULTIPLESPACE.getPattern().matcher(paginaString)
+				.replaceAll(PatternReplaceEnum.MULTIPLESPACE_ONESPACE.getReplace());
 
 		dealed = dealed.trim();
 		return dealed;
