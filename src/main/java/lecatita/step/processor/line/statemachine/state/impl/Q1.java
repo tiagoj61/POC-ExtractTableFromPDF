@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.line.statemachine.state.State;
 
 public class Q1 implements State {
@@ -19,7 +19,7 @@ public class Q1 implements State {
 	}
 
 	@Override
-	public void updateState(ContextLine ctx) {
+	public void updateState(LineContext ctx) {
 		ctx.setNextState(Q2.instance());
 		try {
 			List<String> coluns = new ArrayList<>(Arrays.asList(ctx.getCurrentLine().split(" ")));

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.table.statemachine.context.ContextTable;
 import lecatita.step.processor.table.statemachine.state.impl.TableExtractorState;
 import technology.tabula.ObjectExtractor;

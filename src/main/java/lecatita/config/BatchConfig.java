@@ -23,7 +23,7 @@ import lecatita.enumeration.IdenfierStepEnum;
 import lecatita.listener.JobCompletionListener;
 import lecatita.step.processor.ProcessorDownload;
 import lecatita.step.processor.line.ProcessorLine;
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.reader.ReaderDownload;
 import lecatita.step.reader.ReaderLine;
 import lecatita.step.reader.ReaderTable;
@@ -64,7 +64,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 
 	@Bean
 	public Step lineStep() {
-		return stepBuilderFactory.get("lineStep").<String, ContextLine>chunk(1).reader(new ReaderLine())
+		return stepBuilderFactory.get("lineStep").<String, LineContext>chunk(1).reader(new ReaderLine())
 				.processor(new ProcessorLine()).writer(new WriterLine()).listener(promotionListener()).build();
 	}
 

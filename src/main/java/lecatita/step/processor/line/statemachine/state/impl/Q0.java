@@ -1,6 +1,6 @@
 package lecatita.step.processor.line.statemachine.state.impl;
 
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.line.statemachine.state.State;
 
 public class Q0 implements State {
@@ -16,7 +16,7 @@ public class Q0 implements State {
 	}
 
 	@Override
-	public void updateState(ContextLine ctx) {
+	public void updateState(LineContext ctx) {
 		ctx.setNextState(CleanLineState.instance());
 		try {
 			String currentLine = ctx.getLinesSplited().get(this.posCurrentLine++);

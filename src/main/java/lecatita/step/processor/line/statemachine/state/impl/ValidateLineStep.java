@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.line.statemachine.state.State;
 
 public class ValidateLineStep implements State {
@@ -20,7 +20,7 @@ public class ValidateLineStep implements State {
 	}
 
 	@Override
-	public void updateState(ContextLine ctx) {
+	public void updateState(LineContext ctx) {
 		System.out.println("Split Step");
 		ctx.setNextState(Q0.instance());
 		try {

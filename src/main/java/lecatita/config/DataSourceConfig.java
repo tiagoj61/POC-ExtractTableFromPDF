@@ -24,7 +24,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import lecatita.listener.JobCompletionListener;
 import lecatita.step.processor.ProcessorDownload;
 import lecatita.step.processor.line.ProcessorLine;
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.table.ProcessorTable;
 import lecatita.step.reader.ReaderDownload;
 import lecatita.step.reader.ReaderLine;

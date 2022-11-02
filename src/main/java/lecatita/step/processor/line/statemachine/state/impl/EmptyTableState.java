@@ -1,6 +1,6 @@
 package lecatita.step.processor.line.statemachine.state.impl;
 
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.line.statemachine.state.State;
 
 public class EmptyTableState implements State {
@@ -15,7 +15,7 @@ public class EmptyTableState implements State {
 	}
 
 	@Override
-	public void updateState(ContextLine ctx) {
+	public void updateState(LineContext ctx) {
 		System.out.println("Empty table");
 	}
 }

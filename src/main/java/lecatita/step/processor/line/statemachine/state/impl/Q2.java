@@ -2,7 +2,7 @@ package lecatita.step.processor.line.statemachine.state.impl;
 
 import java.util.List;
 
-import lecatita.step.processor.line.statemachine.context.ContextLine;
+import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.line.statemachine.state.State;
 
 public class Q2 implements State {
@@ -16,7 +16,7 @@ public class Q2 implements State {
 	}
 
 	@Override
-	public void updateState(ContextLine ctx) {
+	public void updateState(LineContext ctx) {
 		System.out.println("Q2");
 		ctx.setNextState(Q0.instance());
 		try {

@@ -12,7 +12,7 @@ public class ContextTable {
 
 	public ContextTable(String packageId, String table) {
 		stringExtraida= table;
-		nextState = TableClennerState.instance();
+		nextState = new TableClennerState();
 	}
 
 	public StateTable getNextState() {
