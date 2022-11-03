@@ -23,7 +23,7 @@ public class HeaderRowState implements IState {
 		if (ctx instanceof EquityContext) {
 			EquityContext context = (EquityContext) ctx;
 
-			if (context.isCorrectedSort()) {
+			if (context.getCorrectedSort()) {
 				// insere as linha
 			}else {
 				// insere as coluna

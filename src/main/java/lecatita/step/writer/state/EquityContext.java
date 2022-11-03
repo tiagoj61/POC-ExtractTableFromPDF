@@ -8,6 +8,7 @@ public class EquityContext extends Context {
 
 	private LineContext lineContext;
 	private Boolean correctedSort;
+	private int[] indecesMenWomen;
 
 	public EquityContext(String packageId, LineContext lineContext) {
 		super(packageId);
@@ -23,12 +24,20 @@ public class EquityContext extends Context {
 		this.lineContext = lineContext;
 	}
 
-	public Boolean isCorrectedSort() {
-		return correctedSort;
-	}
-
 	public void setCorrectedSort(Boolean correctedSort) {
 		this.correctedSort = correctedSort;
+	}
+
+	public int[] getIndecesMenWomen() {
+		return indecesMenWomen;
+	}
+
+	public void setIndecesMenWomen(int[] indecesMenWomen) {
+		this.indecesMenWomen = indecesMenWomen;
+	}
+
+	public Boolean getCorrectedSort() {
+		return correctedSort;
 	}
 
 }

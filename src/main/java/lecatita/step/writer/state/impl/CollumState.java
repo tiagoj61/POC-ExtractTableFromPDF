@@ -21,6 +21,11 @@ public class CollumState implements IState {
 		if (ctx instanceof EquityContext) {
 			EquityContext context = (EquityContext) ctx;
 
+			if (context.getCorrectedSort()) {
+				// nome valor genero
+				// diretor [0-diretor][1-masculino] masculino
+			}
+
 			context.update();
 		} else {
 			throw new IOException();

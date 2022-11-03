@@ -23,7 +23,7 @@ public class MiddleMediatorState implements IState {
 		if (ctx instanceof EquityContext) {
 			EquityContext context = (EquityContext) ctx;
 
-			if (context.isCorrectedSort()) {
+			if (context.getCorrectedSort()) {
 				context.setNextState(HeaderRowState.instance());
 			} else {
 				context.setNextState(HeaderCollumState.instance());
