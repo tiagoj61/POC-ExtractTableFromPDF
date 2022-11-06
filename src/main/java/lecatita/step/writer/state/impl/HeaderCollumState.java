@@ -29,20 +29,23 @@ public class HeaderCollumState implements IState {
 
 			LineContext lineContext = context.getLineContext();
 
+			String[] headers;
 			if (context.getCorrectedSort()) {
-				String[] headers = lineContext.getHeader().split(" ");
-				int[] indecesHeader = getIndeces(headers);
-				context.setIndecesMenWomen(indecesHeader);
-				Map<String, Integer> map = new HashMap<String, Integer>();
-				// f m total f m total
-				// 1 4
-				// 0 3
-				// 0 1 3 4
-				// 4
-				// 3
+				headers = lineContext.getHeader().split(" ");
 			} else {
-				// insere as linhas
+				headers = (String[]) lineContext.getIndeces().toArray();
 			}
+
+			int[] indecesHeader = getIndeces(headers);
+			context.setIndecesMenWomen(indecesHeader);
+			// indices onde tem homem e mulher
+			// Map<String, Integer> map = new HashMap<String, Integer>();
+			// f m total f m total
+			// 1 4
+			// 0 3
+			// 0 1 3 4
+			// 4
+			// 3
 
 			context.setNextState(HeaderRowState.instance());
 			context.update();

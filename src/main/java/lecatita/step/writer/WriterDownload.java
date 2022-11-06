@@ -12,12 +12,7 @@ import lecatita.enumeration.IdenfierStepEnum;
 import lecatita.enumeration.PathEnum;
 
 public class WriterDownload implements ItemWriter<String> {
-	private ILineDao dao;
 	private StepExecution stepExecution;
-
-	public WriterDownload(ILineDao dao) {
-		this.dao = dao;
-	}
 
 	@BeforeStep
 	public void saveStepExecution(StepExecution stepExecution) {

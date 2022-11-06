@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import lecatita.dao.interfc.ILineDao;
 import lecatita.enumeration.IdenfierStepEnum;
 import lecatita.listener.JobCompletionListener;
+import lecatita.service.ILineService;
 import lecatita.step.processor.ProcessorDownload;
 import lecatita.step.processor.line.ProcessorLine;
 import lecatita.step.processor.line.statemachine.context.LineContext;
@@ -36,7 +37,7 @@ import lecatita.step.writer.WriterTable;
 @EnableBatchProcessing
 public class BatchConfig extends DefaultBatchConfigurer {
 	@Autowired
-	private ILineDao lineDao;
+	private ILineService iLineService;
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
 	@Autowired
@@ -52,7 +53,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	public Step downloadStep() {
 
 		return stepBuilderFactory.get("downloadStep").<String, String>chunk(1).reader(new ReaderDownload())
-				.processor(new ProcessorDownload()).writer(new WriterDownload(lineDao)).listener(promotionListener())
+				.processor(new ProcessorDownload()).writer(new WriterDownload()).listener(promotionListener())
 				.build();
 	}
 
@@ -65,7 +66,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	@Bean
 	public Step lineStep() {
 		return stepBuilderFactory.get("lineStep").<String, LineContext>chunk(1).reader(new ReaderLine())
-				.processor(new ProcessorLine()).writer(new WriterLine()).listener(promotionListener()).build();
+				.processor(new ProcessorLine()).writer(new WriterLine(iLineService)).listener(promotionListener()).build();
 	}
 
 	@Override

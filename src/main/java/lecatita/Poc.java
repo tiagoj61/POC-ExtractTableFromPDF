@@ -1,14 +1,20 @@
 package lecatita;
+
 import java.io.File;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -21,81 +27,86 @@ import technology.tabula.RectangularTextContainer;
 import technology.tabula.Table;
 import technology.tabula.extractors.BasicExtractionAlgorithm;
 
-
 public class Poc {
 
 	private static String a = "405-1 Diversidade em órgãos de governança e empregados|\n"
-			+ "Composição do Conselho de Administração - Gênero 2020 2021|\r\n"
-			+ "Masculinos 11 92% 11 92|\r\n"
-			+ "Femininos 1 8% 1 8%|\r\n"
-			+ "Faixa Etária Gênero|\r\n"
-			+ "Cargos|\r\n"
-			+ "-30 anos 30 a 50 anos +50 anos Homens Mulheres|\r\n"
-			+ "Presidente/Diretor 0% 94% 6% 92% 8%|\r\n"
-			+ "Superintendente/VP 4% 90% 6% 83% 17%|\r\n"
-			+ "Gerente/Gerente Geral 6% 93% 1% 59% 41%|";
+			+ "Composição do Conselho de Administração - Gênero 2020 2021|\r\n" + "Masculinos 11 92% 11 92|\r\n"
+			+ "Femininos 1 8% 1 8%|\r\n" + "Faixa Etária Gênero|\r\n" + "Cargos|\r\n"
+			+ "-30 anos 30 a 50 anos +50 anos Homens Mulheres|\r\n" + "Presidente/Diretor 0% 94% 6% 92% 8%|\r\n"
+			+ "Superintendente/VP 4% 90% 6% 83% 17%|\r\n" + "Gerente/Gerente Geral 6% 93% 1% 59% 41%|";
 
-		public static void updateState() {
+	public static void updateState() {
 
-			List<String> linhas = new ArrayList<>(Arrays.asList(a.split("\\|")));
-			HashMap<Integer, String> a = new HashMap<Integer, String>();
-			//TODO Criar metodo, conta a quantidade de numeros agrupados na linha
-			for(String s: linhas) {
-				String[] arra=s.split(" ");
-				int qtdNum=0;
-				for(int i=0;i<arra.length;i++) {
-					if(verifyContainsNumber(arra[i])){
-						qtdNum++;
-					}
+		List<String> linhas = new ArrayList<>(Arrays.asList(a.split("\\|")));
+		HashMap<Integer, String> a = new HashMap<Integer, String>();
+		// TODO Criar metodo, conta a quantidade de numeros agrupados na linha
+		for (String s : linhas) {
+			String[] arra = s.split(" ");
+			int qtdNum = 0;
+			for (int i = 0; i < arra.length; i++) {
+				if (verifyContainsNumber(arra[i])) {
+					qtdNum++;
 				}
-				a.put(qtdNum, s);
 			}
-			int posEntrada=0;
-			int vcalant=0;
-			boolean maioUm=false;
-			for(Map.Entry<Integer, String> entry : a.entrySet()) {
-				
-				
-				if(entry.getKey()>1) {
-					if(entry.getKey()==vcalant) {
-						posEntrada=posEntrada-2;
-						posEntrada=generateTable(a,posEntrada,entry.getKey());
-					}
-					vcalant=entry.getKey();
-					
-				}
-				posEntrada++;
-			}
-				
-			//ctx.update();
+			a.put(qtdNum, s);
 		}
-		private static int generateTable(HashMap<Integer, String> tudo,int posEntrada,int qtd) {
-			int i=0;
-			List<String> newTable= new ArrayList<String>();
-			for(Map.Entry<Integer, String> entry : tudo.entrySet()) {
-				if(i==posEntrada) {
+		int posEntrada = 0;
+		int vcalant = 0;
+		boolean maioUm = false;
+		for (Map.Entry<Integer, String> entry : a.entrySet()) {
+
+			if (entry.getKey() > 1) {
+				if (entry.getKey() == vcalant) {
+					posEntrada = posEntrada - 2;
+					posEntrada = generateTable(a, posEntrada, entry.getKey());
+				}
+				vcalant = entry.getKey();
+
+			}
+			posEntrada++;
+		}
+
+		// ctx.update();
+	}
+
+	private static int generateTable(HashMap<Integer, String> tudo, int posEntrada, int qtd) {
+		int i = 0;
+		List<String> newTable = new ArrayList<String>();
+		for (Map.Entry<Integer, String> entry : tudo.entrySet()) {
+			if (i == posEntrada) {
+				newTable.add(entry.getValue());
+			} else if (i > posEntrada) {
+				if (qtd == entry.getKey()) {
 					newTable.add(entry.getValue());
-				}else if(i>posEntrada) {
-					if(qtd==entry.getKey()) {
-					newTable.add(entry.getValue());
-					}else {
-						break;
-					}
+				} else {
+					break;
 				}
-				i++;
 			}
-			
-			return posEntrada;
+			i++;
 		}
-		//TODO TA DUPLICADO
-		private static boolean verifyContainsNumber(String atual) {
-			String regex = "(.)*(\\d)(.)*";
-			Pattern pattern = Pattern.compile(regex);
-			return pattern.matcher(atual).matches();
-		}
-	
+
+		return posEntrada;
+	}
+
+	// TODO TA DUPLICADO
+	private static boolean verifyContainsNumber(String atual) {
+		String regex = "(.)*(\\d)(.)*";
+		Pattern pattern = Pattern.compile(regex);
+		return pattern.matcher(atual).matches();
+	}
+
 	public static void main(String[] args) throws IOException {
-		test();
+//		test();
+		String[] a = new String[] { "homem", "male", "homens", "h", "masculino", "m" };
+		String[] b = new String[] { "Nível", "F", "d", "TOTAL", "F", "d", "TOTAL", "F", "Mete", "TOTAL" };
+		String e = Normalizer.normalize("Nível", Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+		List t = Arrays.stream(b)
+				.map(x -> Normalizer.normalize(x, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase())
+				.collect(Collectors.toList());
+		boolean anyMatch = Arrays.asList(a).stream().anyMatch(new HashSet<>(t)::contains);
+		System.out.println(Arrays.stream(a).anyMatch(t.stream()::equals));
+		
+		// Arrays.stream(headerEnum.getValue()).anyMatch(Arrays.stream(toCompare).map(String::toLowerCase)::equals)
 //		String a = "Composição do Conselho de Administração - Gênero 2020 2021|\r\n"
 //				+ "Masculinos 11 92% 11 92%| 4|\r\n"
 //				+ "Femininos 1 8% 1 8% 4|\r\n"
@@ -138,6 +149,7 @@ public class Poc {
 //		        }
 //		    }
 	}
+
 	public static void test() throws IOException {
 		final String FILENAME = "D:\\Users\\Pc\\Documents\\POCs\\XP.pdf";
 
@@ -150,10 +162,8 @@ public class Poc {
 		BasicExtractionAlgorithm sea = new BasicExtractionAlgorithm();
 		Page page = oe.extract(1);
 
-		
-		
-		 System.out.println("----------------------------------------------------");
-		
+		System.out.println("----------------------------------------------------");
+
 		// extract text from the table after detecting
 		List<Table> table = (List<Table>) sea.extract(page);
 		for (Table tables : table) {
@@ -179,8 +189,7 @@ public class Poc {
 //    List<Rectangle> expected = Arrays.asList(EXPECTED_RECTANGLES);
 //    Collections.sort(expected);
 //    List<Rectangle> foundRectangles = se.findSpreadsheetsFromCells(cells);
-	
-	
+
 //    Page page = UtilsForTesting
 //            .getPage("src/test/resources/technology/tabula/spanning_cells.pdf", 1);
 //    String expectedJson = UtilsForTesting.loadJson("src/test/resources/technology/tabula/json/spanning_cells.json");

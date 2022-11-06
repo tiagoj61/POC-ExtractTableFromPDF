@@ -1,6 +1,7 @@
 package lecatita.dao.interfc;
 
-import lecatita.dao.IGenericDao;
+import lecatita.step.writer.state.model.Burden;
 
-public interface ILineDao extends IGenericDao{
+public interface ILineDao {
+	public void insert(Burden burden);
 }
