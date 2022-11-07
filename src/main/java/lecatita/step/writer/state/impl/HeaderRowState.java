@@ -30,16 +30,24 @@ public class HeaderRowState implements IState {
 
 			LineContext lineContext = context.getLineContext();
 			List<String> burdens;
+			List<String> aux;
 			List<Burden> burdensData = new ArrayList();
 			List<List<String>> values = lineContext.getColuns();
 			int[] indecesHeader = context.getIndecesMenWomen();
 			if (context.getCorrectedSort()) {
 				burdens = lineContext.getIndeces();
+				aux = Arrays.asList(lineContext.getHeader().split(" "));
 			} else {
 				burdens = Arrays.asList(lineContext.getHeader().split(" "));
+				aux = lineContext.getIndeces();
 			}
 			// adm opp asd
 			// burdens.stream().map(burden->new Burden(burden, 0, 0))
+
+			if (values.get(0).size() < aux.size()) {
+				indecesHeader[0] = indecesHeader[0] - 1;
+				indecesHeader[1] = indecesHeader[1] - 1;
+			}
 
 			IntStream.range(0, burdens.size()).forEach(index -> {
 				burdensData.add(new Burden(burdens.get(index), values.get(index).get(indecesHeader[0]),

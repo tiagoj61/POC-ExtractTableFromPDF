@@ -16,11 +16,13 @@ public class LineDao implements ILineDao {
 	@Override
 	public void insert(Burden burden) {
 		String sql = InsertsEnum.BURDEN.getValue();
-		sql.replace(":" + Burden.class.getFields()[0], burden.getName());
-		sql.replace(":" + Burden.class.getFields()[1], burden.getQuantity_male());
-		sql.replace(":" + Burden.class.getFields()[2], burden.getQuantity_female());
-
-		// this.jdbcTemplate.execute("Delete");
+		sql = sql.replaceAll(":" + Burden.class.getDeclaredFields()[0].getName(), "`" + burden.getName() + "`");
+		sql = sql.replaceAll(":" + Burden.class.getDeclaredFields()[1].getName(),
+				"`" + burden.getQuantity_male() + "`");
+		sql = sql.replaceAll(":" + Burden.class.getDeclaredFields()[2].getName(),
+				"`" + burden.getQuantity_female() + "`");
+		
+		this.jdbcTemplate.execute(sql);
 	}
 
 }

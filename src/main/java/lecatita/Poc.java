@@ -18,9 +18,11 @@ import java.util.stream.Collectors;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
+import lecatita.dao.enumoperations.InsertsEnum;
 import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.processor.table.statemachine.context.ContextTable;
 import lecatita.step.processor.table.statemachine.state.impl.TableExtractorState;
+import lecatita.step.writer.state.model.Burden;
 import technology.tabula.ObjectExtractor;
 import technology.tabula.Page;
 import technology.tabula.RectangularTextContainer;
@@ -97,15 +99,22 @@ public class Poc {
 
 	public static void main(String[] args) throws IOException {
 //		test();
-		String[] a = new String[] { "homem", "male", "homens", "h", "masculino", "m" };
-		String[] b = new String[] { "Nível", "F", "d", "TOTAL", "F", "d", "TOTAL", "F", "Mete", "TOTAL" };
-		String e = Normalizer.normalize("Nível", Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
-		List t = Arrays.stream(b)
-				.map(x -> Normalizer.normalize(x, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase())
-				.collect(Collectors.toList());
-		boolean anyMatch = Arrays.asList(a).stream().anyMatch(new HashSet<>(t)::contains);
-		System.out.println(Arrays.stream(a).anyMatch(t.stream()::equals));
-		
+//		String[] a = new String[] { "homem", "male", "homens", "h", "masculino", "m" };
+//		String[] b = new String[] { "Nível", "F", "d", "TOTAL", "F", "d", "TOTAL", "F", "Mete", "TOTAL" };
+//		String e = Normalizer.normalize("Nível", Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase();
+//		List t = Arrays.stream(b)
+//				.map(x -> Normalizer.normalize(x, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toLowerCase())
+//				.collect(Collectors.toList());
+//		boolean anyMatch = Arrays.asList(a).stream().anyMatch(new HashSet<>(t)::contains);
+//		System.out.println(Arrays.stream(a).anyMatch(t.stream()::equals));
+		String sql = InsertsEnum.BURDEN.getValue();
+		System.out.println(sql);
+		String vari=":"+Burden.class.getDeclaredFields()[0].getName();
+		System.out.println(sql.replaceAll(vari,"a"));
+		sql.replaceAll(":" + vari,"a");
+		sql.replaceAll(":" + Burden.class.getDeclaredFields()[1].getName(),"b");
+		sql.replaceAll(":" + Burden.class.getDeclaredFields()[2].getName(), "c");
+System.out.println(sql);
 		// Arrays.stream(headerEnum.getValue()).anyMatch(Arrays.stream(toCompare).map(String::toLowerCase)::equals)
 //		String a = "Composição do Conselho de Administração - Gênero 2020 2021|\r\n"
 //				+ "Masculinos 11 92% 11 92%| 4|\r\n"

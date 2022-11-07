@@ -44,10 +44,15 @@ public enum HeaderEnum {
 	public static List<Integer> positionOfMenEquals(String[] toCompare) {
 		List<String> coverted = cleanArrayToList(toCompare);
 		List<Integer> matchings = new ArrayList<>();
-		for (String homemCompare : coverted) {
-			int match = Arrays.asList(HeaderEnum.MEN.getValue()).indexOf(homemCompare);
+		List<String> mens = Arrays.asList(HeaderEnum.MEN.value);
+		for (String homemCompare : mens) {
+			int match = coverted.indexOf(homemCompare);
 			if (match != -1) {
-				matchings.add(match);
+				while (match != -1) {
+					matchings.add(match);
+					coverted.set(match, "");
+					match = coverted.indexOf(homemCompare);
+				}
 			}
 		}
 		return matchings;
@@ -57,10 +62,15 @@ public enum HeaderEnum {
 	public static List<Integer> positionOfWomenEquals(String[] toCompare) {
 		List<String> coverted = cleanArrayToList(toCompare);
 		List<Integer> matchings = new ArrayList<>();
-		for (String homemCompare : coverted) {
-			int match = Arrays.asList(HeaderEnum.WOMEN.getValue()).indexOf(homemCompare);
+		List<String> womens = Arrays.asList(HeaderEnum.WOMEN.value);
+		for (String homemCompare : womens) {
+			int match = coverted.indexOf(homemCompare);
 			if (match != -1) {
-				matchings.add(match);
+				while (match != -1) {
+					matchings.add(match);
+					coverted.set(match, "");
+					match = coverted.indexOf(homemCompare);
+				}
 			}
 		}
 		return matchings;

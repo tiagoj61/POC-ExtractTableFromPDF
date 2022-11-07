@@ -38,14 +38,6 @@ public class HeaderCollumState implements IState {
 
 			int[] indecesHeader = getIndeces(headers);
 			context.setIndecesMenWomen(indecesHeader);
-			// indices onde tem homem e mulher
-			// Map<String, Integer> map = new HashMap<String, Integer>();
-			// f m total f m total
-			// 1 4
-			// 0 3
-			// 0 1 3 4
-			// 4
-			// 3
 
 			context.setNextState(HeaderRowState.instance());
 			context.update();
@@ -58,7 +50,7 @@ public class HeaderCollumState implements IState {
 		int[] indeces = new int[2];
 
 		List<Integer> indexOfMens = HeaderEnum.positionOfMenEquals(headers);
-		List<Integer> indexOfWomens = HeaderEnum.positionOfMenEquals(headers);
+		List<Integer> indexOfWomens = HeaderEnum.positionOfWomenEquals(headers);
 		indexOfWomens = indexOfWomens.stream().filter(women -> indexOfMens.indexOf(women) == -1)
 				.collect(Collectors.toList());
 		indeces[0] = indexOfMens.get(indexOfMens.size() - 1);
