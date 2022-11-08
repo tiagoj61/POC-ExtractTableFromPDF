@@ -2,6 +2,7 @@ package lecatita.step.writer;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.batch.item.ItemWriter;
 
@@ -19,6 +20,9 @@ public class WriterLine implements ItemWriter<LineContext> {
 	// TODO dados que ja estao trataos no banco
 	@Override
 	public void write(List<? extends LineContext> lines) throws Exception {
+		lines = lines.stream()
+				.filter(line -> line.getColuns() != null && line.getIndeces() != null && line.getHeader() != null)
+				.collect(Collectors.toList());
 		for (LineContext msg : lines) {
 			System.out.println("Writing the data " + msg);
 			EquityContext context = new EquityContext(UUID.randomUUID().toString(), msg);
