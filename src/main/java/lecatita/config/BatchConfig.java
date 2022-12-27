@@ -22,12 +22,14 @@ import lecatita.dao.interfc.ILineDao;
 import lecatita.enumeration.IdenfierStepEnum;
 import lecatita.listener.JobCompletionListener;
 import lecatita.service.ILineService;
+import lecatita.service.ISendService;
 import lecatita.step.processor.ProcessorDownload;
 import lecatita.step.processor.line.ProcessorLine;
 import lecatita.step.processor.line.statemachine.context.LineContext;
 import lecatita.step.reader.ReaderDownload;
 import lecatita.step.reader.ReaderLine;
 import lecatita.step.reader.ReaderTable;
+import lecatita.step.tasklet.TasklerSend;
 import lecatita.step.writer.WriterDownload;
 import lecatita.step.writer.WriterLine;
 import lecatita.step.writer.WriterTable;
@@ -38,6 +40,8 @@ import lecatita.step.writer.WriterTable;
 public class BatchConfig extends DefaultBatchConfigurer {
 	@Autowired
 	private ILineService iLineService;
+	@Autowired
+	private ISendService iSendService;
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
 	@Autowired
@@ -53,8 +57,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	public Step downloadStep() {
 
 		return stepBuilderFactory.get("downloadStep").<String, String>chunk(1).reader(new ReaderDownload())
-				.processor(new ProcessorDownload()).writer(new WriterDownload()).listener(promotionListener())
-				.build();
+				.processor(new ProcessorDownload()).writer(new WriterDownload()).listener(promotionListener()).build();
 	}
 
 	@Bean
@@ -66,7 +69,18 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	@Bean
 	public Step lineStep() {
 		return stepBuilderFactory.get("lineStep").<String, LineContext>chunk(1).reader(new ReaderLine())
-				.processor(new ProcessorLine()).writer(new WriterLine(iLineService)).listener(promotionListener()).build();
+				.processor(new ProcessorLine()).writer(new WriterLine(iLineService)).listener(promotionListener())
+				.build();
+	}
+
+	@Bean
+	public Step sendStep() {
+		return stepBuilderFactory.get("sendStep").tasklet(sendTasklet()).build();
+	}
+
+	@Bean
+	public TasklerSend sendTasklet() {
+		return new TasklerSend(iSendService);
 	}
 
 	@Override

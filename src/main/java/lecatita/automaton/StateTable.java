@@ -1,5 +1,5 @@
 
-package lecatita.step.processor.statemachine;
+package lecatita.automaton;
 
 import lecatita.step.processor.table.statemachine.context.ContextTable;
 

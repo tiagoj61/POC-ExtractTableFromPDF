@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import lecatita.step.processor.statemachine.StateTable;
+import lecatita.automaton.StateTable;
 import lecatita.step.processor.table.statemachine.context.ContextTable;
 
 public class TableExtractorState implements StateTable {

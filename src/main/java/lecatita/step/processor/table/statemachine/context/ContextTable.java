@@ -1,6 +1,6 @@
 package lecatita.step.processor.table.statemachine.context;
 
-import lecatita.step.processor.statemachine.StateTable;
+import lecatita.automaton.StateTable;
 import lecatita.step.processor.table.statemachine.state.impl.TableClennerState;
 
 public class ContextTable {

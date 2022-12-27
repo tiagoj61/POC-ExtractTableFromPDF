@@ -1,8 +1,8 @@
 package lecatita.step.processor.table.statemachine.state.impl;
 
 import lecatita.enumeration.PatternCaractersEnum;
+import lecatita.automaton.StateTable;
 import lecatita.enumeration.CaractersEnum;
-import lecatita.step.processor.statemachine.StateTable;
 import lecatita.step.processor.table.statemachine.context.ContextTable;
 
 public class TableClennerState implements StateTable {

@@ -33,28 +33,39 @@ public class ProcessorDownload implements ItemProcessor<String, String> {
 	}
 
 	private String extractPageFromFile(String fileName) throws IOException {
-		logInfo = "Starting cut " + fileName;
-		System.out.println(logInfo);
+		PDDocument document = null;
+		try {
 
-		String filePath = PathEnum.FILE_STORE.getValue() + fileName + ".pdf";
-		File pdffile = new File(filePath);
+			logInfo = "Starting cut " + fileName;
+			System.out.println(logInfo);
 
-		PDDocument document = PDDocument.load(pdffile);
+			String filePath = PathEnum.FILE_STORE.getValue() + fileName + ".pdf";
+			File pdffile = new File(filePath);
 
-		Splitter splitting = new Splitter();
+			document = PDDocument.load(pdffile);
 
-		List<PDDocument> Page = splitting.split(document);
+			Splitter splitting = new Splitter();
 
-		String fileCutPath = PathEnum.FILE_CUT_STORE.getValue() + fileName + ".pdf";
+			List<PDDocument> Page = splitting.split(document);
 
-		PDDocument pd = Page.get(pageToExtract);
-		pd.save(fileCutPath);
+			String fileCutPath = PathEnum.FILE_CUT_STORE.getValue() + fileName + ".pdf";
 
-		document.close();
+			PDDocument pd = Page.get(pageToExtract);
+			pd.save(fileCutPath);
 
-		logInfo = "Finished cut, at " + fileCutPath;
-		System.out.println(logInfo);
-		return fileName;
+			document.close();
+
+			logInfo = "Finished cut, at " + fileCutPath;
+			System.out.println(logInfo);
+
+			return fileName;
+		} catch (Exception e) {
+			return null;
+		} finally {
+			if (document != null) {
+				document.close();
+			}
+		}
 
 	}
 
