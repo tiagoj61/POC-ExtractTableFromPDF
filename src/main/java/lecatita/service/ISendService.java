@@ -6,5 +6,5 @@ import lecatita.step.writer.state.model.Burden;
 
 public interface ISendService {
 
-	void sendLineResult();
+	void sendLineResult(String empresaId, String ano);
 }

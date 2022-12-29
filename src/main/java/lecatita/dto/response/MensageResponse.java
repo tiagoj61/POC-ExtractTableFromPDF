@@ -1,4 +1,4 @@
-package lecatita.dto;
+package lecatita.dto.response;
 
 public class MensageResponse {
 	private String mensage;

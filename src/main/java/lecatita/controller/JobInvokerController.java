@@ -26,10 +26,13 @@ public class JobInvokerController {
 	Job processJob;
 
 	@RequestMapping(value = "/invokejob", method = RequestMethod.GET)
-	public ResponseEntity<MensageResponseDTO> handle(@RequestParam String pagina, @RequestParam String downloadUrl)
+	public ResponseEntity<MensageResponseDTO> handle(@RequestParam String pagina, @RequestParam String downloadUrl,@RequestParam String empresaId,@RequestParam String ano)
 			throws Exception {
 		JobParameters jobParameters = new JobParametersBuilder().addLong("time", System.currentTimeMillis())
-				.addString("downloadUrl", downloadUrl.replace(" ", "+")).addString("pagina", pagina).toJobParameters();
+				.addString("downloadUrl", downloadUrl.replace(" ", "+"))
+				.addString("pagina", pagina)
+				.addString("empresaId", empresaId)
+				.addString("ano", ano).toJobParameters();
 
 		JobThread jobThread = new JobThread(jobLauncher, processJob, jobParameters);
 		jobThread.start();
