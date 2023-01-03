@@ -22,7 +22,6 @@ public class SplitStep implements State {
 
 	@Override
 	public void updateState(LineContext ctx) {
-		System.out.println("Split Step");
 		ctx.setNextState(Q0.instance());
 		try {
 			if (ctx.getTable().contains("||")) {

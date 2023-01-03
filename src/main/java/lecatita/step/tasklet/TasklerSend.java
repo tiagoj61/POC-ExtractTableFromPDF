@@ -19,18 +19,18 @@ public class TasklerSend implements Tasklet {
 	private ISendService iSendService;
 	private String empresaId;
 	private String ano;
-	
+
 	public TasklerSend(ISendService iSendService) {
 		this.iSendService = iSendService;
 	}
-	
+
 	@Override
 	public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
-		  JobParameters jobParameters = chunkContext.getStepContext().getStepExecution().getJobParameters();
-		  empresaId = (jobParameters.getString("empresaId"));
-			ano = (jobParameters.getString("ano"));
-		
-		iSendService.sendLineResult(empresaId,ano);
+		JobParameters jobParameters = chunkContext.getStepContext().getStepExecution().getJobParameters();
+		empresaId = (jobParameters.getString("empresaId"));
+		ano = (jobParameters.getString("ano"));
+
+		iSendService.sendLineResult(empresaId, ano);
 
 		return RepeatStatus.FINISHED;
 	}

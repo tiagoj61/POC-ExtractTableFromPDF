@@ -21,7 +21,6 @@ public class ValidateLineStep implements State {
 
 	@Override
 	public void updateState(LineContext ctx) {
-		System.out.println("Split Step");
 		ctx.setNextState(Q0.instance());
 		try {
 			List<String> linhas = new ArrayList<>(Arrays.asList(ctx.getTable().split(lineDelimeter)));
