@@ -24,15 +24,12 @@ public class TasklerSend implements Tasklet {
 		this.iSendService = iSendService;
 	}
 	
-	@BeforeStep
-	public void beforeStep(final StepExecution stepExecution) throws IOException {
-		JobParameters jobParameters = stepExecution.getJobParameters();
-		empresaId = (jobParameters.getString("empresaId"));
-		ano = (jobParameters.getString("ano"));
-	}
-	
 	@Override
 	public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
+		  JobParameters jobParameters = chunkContext.getStepContext().getStepExecution().getJobParameters();
+		  empresaId = (jobParameters.getString("empresaId"));
+			ano = (jobParameters.getString("ano"));
+		
 		iSendService.sendLineResult(empresaId,ano);
 
 		return RepeatStatus.FINISHED;
