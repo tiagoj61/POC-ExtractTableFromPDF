@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,7 +21,7 @@ import lecatita.service.ILineService;
 import lecatita.service.ISendService;
 import lecatita.step.writer.state.model.Burden;
 
-@Repository
+@Service
 public class SendService implements ISendService {
 	@Autowired
 	private ILineDao dao;

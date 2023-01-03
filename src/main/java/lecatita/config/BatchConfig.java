@@ -50,7 +50,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	@Bean
 	public Job processJob() {
 		return jobBuilderFactory.get("processJob").incrementer(new RunIdIncrementer()).listener(listener())
-				.start(downloadStep()).next(tableStep()).next(lineStep()).build();
+				.start(downloadStep()).next(tableStep()).next(lineStep()).next(sendStep()).build();
 	}
 
 	@Bean

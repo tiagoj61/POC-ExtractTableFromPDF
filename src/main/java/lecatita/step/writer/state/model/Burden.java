@@ -5,6 +5,10 @@ public class Burden {
 	private String quantity_male;
 	private String quantity_female;
 
+	public Burden() {
+		super();
+	}
+
 	public Burden(String name, String quantity_male, String quantity_female) {
 		super();
 		this.name = name;
