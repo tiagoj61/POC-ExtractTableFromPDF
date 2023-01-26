@@ -45,7 +45,7 @@ public class SendService implements ISendService {
 	}
 
 	private void sendBurdens(List<BurdenRequest> burdens) {
-		ResponseEntity<JsonNode> response = restTemplate.exchange("http://teste/Send/Burden", HttpMethod.POST,
+		ResponseEntity<JsonNode> response = restTemplate.exchange("http://localhost:9000/companies/"+burdens.get(0).getCompany_id()+"/response", HttpMethod.POST,
 				new HttpEntity<>(burdens, new HttpHeaders()), JsonNode.class);
 	}
 
