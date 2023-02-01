@@ -3,6 +3,7 @@ package lecatita.step.processor.line.statemachine.context;
 import java.util.ArrayList;
 import java.util.List;
 
+import lecatita.step.processor.line.statemachine.state.impl.Q0;
 import lecatita.step.processor.line.statemachine.state.impl.SplitStep;
 import lecatita.step.processor.line.statemachine.state.State;
 
@@ -19,6 +20,7 @@ public class LineContext {
 	private List<List<String>> coluns;
 
 	public LineContext(String packageId, String table) {
+		Q0.instance().posCurrentLine=0;
 		this.packageId = packageId;
 
 		this.table = table;

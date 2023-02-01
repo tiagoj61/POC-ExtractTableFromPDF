@@ -18,11 +18,17 @@ public class LineService implements ILineService {
 
 	@Override
 	public void insertBurdens(List<Burden> burdens) {
+		try {
 		burdens.forEach(burden -> {
+			
 			if (!burden.getName().toLowerCase().equals("total")) {
 				dao.insert(burden);
 			}
+			
 		});
+		}catch(Exception e) {
+			System.out.println("erro");
+		}
 	}
 
 }

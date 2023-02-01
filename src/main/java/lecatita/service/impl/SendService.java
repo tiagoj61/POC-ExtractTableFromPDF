@@ -41,6 +41,12 @@ public class SendService implements ISendService {
 
 	private List<Burden> findAllBurdens() {
 		List<Burden> burdens = dao.findAll();
+		burdens.forEach(burden->{
+			
+			burden.setQuantity_male(burden.getQuantity_male().replaceAll("\\.", ""));
+		burden.setQuantity_female(burden.getQuantity_female().replaceAll("\\.", ""));
+		}
+		);
 		return burdens;
 	}
 
@@ -50,7 +56,7 @@ public class SendService implements ISendService {
 	}
 
 	private void clearBurdens() {
-		dao.findAll();
+		dao.clearTable();
 
 	}
 }

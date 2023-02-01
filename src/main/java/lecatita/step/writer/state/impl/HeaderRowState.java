@@ -28,6 +28,8 @@ public class HeaderRowState implements IState {
 		if (ctx instanceof EquityContext) {
 			EquityContext context = (EquityContext) ctx;
 
+			try {
+		
 			LineContext lineContext = context.getLineContext();
 			List<String> burdens;
 			List<String> aux;
@@ -56,6 +58,12 @@ public class HeaderRowState implements IState {
 			context.setBurdensData(burdensData);
 			context.setNextState(FinishState.instance());
 			context.update();
+			}catch (Exception e) {
+				context.setNextState(FinishState.instance());
+				context.update();
+			}
+		
+			
 		} else {
 			throw new IOException();
 		}

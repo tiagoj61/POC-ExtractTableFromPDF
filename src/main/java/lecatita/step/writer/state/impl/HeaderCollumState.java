@@ -33,7 +33,7 @@ public class HeaderCollumState implements IState {
 			if (context.getCorrectedSort()) {
 				headers = lineContext.getHeader().split(" ");
 			} else {
-				headers = (String[]) lineContext.getIndeces().toArray();
+				headers = lineContext.getIndeces().toArray(new String[0]);
 			}
 
 			int[] indecesHeader = getIndeces(headers);
@@ -47,15 +47,18 @@ public class HeaderCollumState implements IState {
 	}
 
 	public int[] getIndeces(String[] headers) {
+	
 		int[] indeces = new int[2];
-
+		try {
 		List<Integer> indexOfMens = HeaderEnum.positionOfMenEquals(headers);
 		List<Integer> indexOfWomens = HeaderEnum.positionOfWomenEquals(headers);
 		indexOfWomens = indexOfWomens.stream().filter(women -> indexOfMens.indexOf(women) == -1)
 				.collect(Collectors.toList());
 		indeces[0] = indexOfMens.get(indexOfMens.size() - 1);
 		indeces[1] = indexOfWomens.get(indexOfWomens.size() - 1);
-
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 		return indeces;
 	}
 

@@ -6,7 +6,7 @@ import lecatita.step.processor.line.statemachine.state.State;
 public class Q0 implements State {
 	private static Q0 instance = new Q0();
 
-	private int posCurrentLine = 0;
+	public int posCurrentLine = 0;
 
 	private Q0() {
 	}

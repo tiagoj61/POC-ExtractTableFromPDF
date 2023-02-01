@@ -22,10 +22,10 @@ public class Q2 implements State {
 			List<String> currentCollum = ctx.getColuns().get(ctx.getColuns().size() - 1);
 
 			for (String colum : currentCollum) {
-				if (colum.contains("%")) {
+				if (!colum.contains("%")) {
 
-				} else {
-					Double.valueOf(colum);
+					//var replaced=colum.replaceAll(",", ".");
+					//Double.valueOf(replaced);
 				}
 			}
 

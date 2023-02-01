@@ -20,9 +20,9 @@ public class LineDao implements ILineDao {
 	public void insert(Burden burden) {
 		String sql = InsertsEnum.BURDEN.getValue();
 		sql = sql.replaceAll(":" + Burden.class.getDeclaredFields()[0].getName(), "'" + burden.getName() + "'");
-		sql = sql.replaceAll(":" + Burden.class.getDeclaredFields()[1].getName(), "" + burden.getQuantity_male() + "");
+		sql = sql.replaceAll(":" + Burden.class.getDeclaredFields()[1].getName(), "'" + burden.getQuantity_male() + "'");
 		sql = sql.replaceAll(":" + Burden.class.getDeclaredFields()[2].getName(),
-				"" + burden.getQuantity_female() + "");
+				"'" + burden.getQuantity_female() + "'");
 
 		this.jdbcTemplate.execute(sql);
 	}
